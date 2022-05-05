@@ -1,0 +1,29 @@
+@model MeetUp
+
+<div class="container row flex justify-content-center bg-info rounded p-2">
+    <div class="card p-4 bg-white shadow-sm mb-1 rounded col-5">
+        <h2 class="text-center font-weight-light mb-2">Meeting Information</h2>
+        <form asp-action="NewPost" asp-controller="MeetUp" method="POST">
+                <div class="form-group m-1">
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                    <input asp-for="Title" class="form-control" placeholder="Title">
+                </div>
+                <div class="form-group m-1">
+                    <label asp-for="Description"></label>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                    <input asp-for="Description" class="form-control">
+                </div>
+                <div class="form-group m-1">
+                    <label asp-for="DateTime"></label>
+                    <span asp-validation-for="DateTime" class="text-danger"></span>
+                    <input asp-for="DateTime" class="form-control input-date">
+                </div>
+                <div class="form-row m-1">
+                    <label asp-for="Duration"></label>
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                    <input asp-for="Duration" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-info m-1 mt-2">Add Meeting</button>
+        </form>
+    </div>
+</div>

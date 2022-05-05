@@ -1,0 +1,40 @@
+@model List<MeetUp>
+
+<div class="container row flex justify-content-around">
+    @foreach (MeetUp m in Model)
+    {
+        bool alreadyLiked = m.Participation.Any(p => p.UserId == Context.Session.GetInt32("UserId"));
+        <div class="card p-3 bg-white text-black shadow m-3 rounded" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title text-center">@m.Title</h5>
+                <p class="card-subtitle mb-2 text-muted text-center">@m.DateTime</p>
+                <p class="card-text text-center">Duration - @m.Duration  Coordinator - @m.Creator.Name</p>
+                <p class="card-text text-center">No. of Participants - @m.Participation.Count</p>
+                <div class="row flex justify-content-around">
+                    <a asp-action="Details" asp-controller="MeetUp" asp-route-meetupId="@m.MeetUpId" class="card-link">Details</a>
+                    @if(@m.UserId != Context.Session.GetInt32("UserId"))
+                    {
+                        <form asp-action="Like" asp-controller="MeetUp" asp-route-meetupId="@m.MeetUpId">
+                            <button class="btn btn-info btn-sm btn-outline-secondary active" role="button" aria-pressed="true">
+                                @if(alreadyLiked)
+                                {
+                                    <span>Leave</span>
+                                }
+                                else
+                                {
+                                    <span>Join</span>
+                                }
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="Delete" asp-controller="MeetUp" asp-route-meetupId="@m.MeetUpId">
+                            <button class="btn btn-outline-danger btn-sm active" role="button" aria-pressed="true">Delete</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

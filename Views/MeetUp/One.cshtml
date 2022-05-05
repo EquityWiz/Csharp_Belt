@@ -1,0 +1,39 @@
+@model MeetUp
+
+<div class="container row flex justify-content-between">
+<h3 class="text-left mb-2 ml-2 font-weight-light">@Model.Title</h3>
+@{
+    bool alreadyLiked = @Model.Participation.Any(p => p.UserId == Context.Session.GetInt32("UserId"));
+}
+@if(@Model.UserId != Context.Session.GetInt32("UserId"))
+                    {
+                        <form asp-action="Like" asp-controller="MeetUp" asp-route-meetupId="@Model.MeetUpId">
+                            <button class="btn btn-info btn btn-outline-secondary active mb-2 mr-1" role="button" aria-pressed="true">
+                                @if(alreadyLiked)
+                                {
+                                    <span>Leave</span>
+                                }
+                                else
+                                {
+                                    <span>Join</span>
+                                }
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="Delete" asp-controller="MeetUp" asp-route-meetupId="@Model.MeetUpId">
+                            <button class="btn btn-outline-danger btn active mb-2 mr-1" role="button" aria-pressed="true">Delete</button>
+                        </form>
+                    }
+</div>
+    <div class="container card p-4 bg-white shadow rounded" style="background-color: rgba(108, 126, 130, .75);">
+        <h6 class="card-title ">Event Coordinator - @Model.Creator.Name</h6>
+        <h6 class="card-title mt-1">Description</h6>
+            <p class="card-subtitle">@Model.Description</p>
+        <h6 class="card-title mt-3">Participants</h6>
+        @foreach (var p in Model.Participation)
+        {
+            <h6 class="card-subtitle mb-1 text-muted">@p.User.Name</h6>
+        }
+</div>
